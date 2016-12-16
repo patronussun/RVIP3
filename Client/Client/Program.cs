@@ -16,14 +16,17 @@ namespace РВИП2_консоль
         
         const int Maxcount_car = 10;
         //public int count_car = 0;
+       static int count_car = 0;
 
         static void Main(string[] args)
         {
-
-            Thread th_car1 = new Thread(ThreadFunction);
-            th_car1.Start(true);
-            Thread th_car2 = new Thread(ThreadFunction);
-            th_car2.Start(false);
+            for (int i = 0; i < Maxcount_car; i++)
+            {
+                Thread th_car1 = new Thread(ThreadFunction);
+                th_car1.Start(true);
+            }
+            //Thread th_car2 = new Thread(ThreadFunction);
+            //th_car2.Start(false);
             Console.Read();
         }
 
@@ -31,34 +34,22 @@ namespace РВИП2_консоль
         {
             try
             {
-                int count_car = 0;
-                bool flag = (bool)input;
+
+              //  bool flag = (bool)input;
                 Transporter transp = new Transporter();
 
-                for (int i = 0; i < Maxcount_car; i++)
-                {
+             //   for (int i = 0; i < Maxcount_car; i++)
+             //   {
                     IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
 
                     Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     // подключаемся к удаленному хосту
                     socket.Connect(ipPoint);
 
-                    //Если входящий флаг true - значит "я первый поток"
-                    if (flag)
-                    {
                         transp.Constructor();
                         count_car++;
-                        Console.WriteLine(("Собрал машину в первом потоке. Это" + count_car.ToString() + "машина"));
+                        Console.WriteLine(("Собрал машину. Это " + count_car.ToString() + " машина"));
                         
-                    }
-                    //Если входящий флаг false - значит "я второй поток"
-                    else
-                    {
-                        transp.Constructor();
-                        count_car++;
-                        Console.WriteLine("Собрал машину во втором потоке. Это" + count_car.ToString() + "машина");
-                        
-                    }
                     
                     string message = count_car.ToString();
                     byte[] data = Encoding.Unicode.GetBytes(message);
@@ -79,7 +70,7 @@ namespace РВИП2_консоль
                     // закрываем сокет
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
-                }
+              //  }
               
             }
             catch (Exception ex)

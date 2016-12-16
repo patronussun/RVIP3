@@ -14,7 +14,7 @@ namespace Server
         static int port = 8005;
         static void Main(string[] args)
         {
-          //  ConcurrentBag<string> cb_speed = new ConcurrentBag<string>();
+
             ConcurrentBag<string> car_count = new ConcurrentBag<string>();
 
             // получаем адреса для запуска сокета
@@ -31,7 +31,7 @@ namespace Server
                 listenSocket.Listen(10);
 
                 Console.WriteLine("Сервер запущен. Ожидание подключений...");
-                int endl = 29;
+                int endl = 30;
 
                 while (endl > 0)
                 {
@@ -47,11 +47,11 @@ namespace Server
                         builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                     }
                     while (handler.Available > 0);
+
                     String[] mas = builder.ToString().Split(' ');
-                //    cb_speed.Add(mas[0]);
                     car_count.Add(mas[0]);
 
-                    Console.WriteLine(DateTime.Now.ToShortTimeString() + ":Сервер принимает: Машина " + mas[0].ToString());
+                    Console.WriteLine(DateTime.Now.ToShortTimeString() + "Сервер принимает: Машина " + mas[0].ToString());
 
                     // отправляем ответ
                     string message = "ваше сообщение доставлено";
@@ -68,13 +68,11 @@ namespace Server
             {
                 Console.WriteLine(ex.Message);
             }
+
             finally
             {
                 Console.ReadLine();
-              //  Console.WriteLine("Список средних скоростей:");
-             //   foreach (string sp in cb_speed)
-            //        Console.Write(sp.ToString() + " ");
-            //    Console.WriteLine();
+
                 Console.WriteLine("Список Собрано машин:");
                 foreach (string coun in car_count)
                     Console.Write(coun.ToString() + " ");
